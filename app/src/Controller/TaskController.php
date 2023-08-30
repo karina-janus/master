@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 
+
 #[Route('task')]
 class TaskController extends AbstractController
 {
@@ -74,6 +75,7 @@ class TaskController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/create', name: 'task_create', methods: 'GET|POST', )]
+    #[IsGranted('ROLE_ADMIN')]
     public function create(Request $request): Response
     {
         $task = new Task();

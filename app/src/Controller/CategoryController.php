@@ -86,7 +86,8 @@ class CategoryController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/create', name: 'category_create', methods: 'GET|POST', )]
+    #[Route('/create', name: 'category_create', methods: 'GET|POST' )]
+    #[IsGranted('ROLE_ADMIN')]
     public function create(Request $request): Response
     {
         $category = new Category();
@@ -177,7 +178,7 @@ class CategoryController extends AbstractController
                 );
             }
 
-            return $this->redirectToRoute('category_index');
+            return $this->redirect('category_index');
         }
 
         return $this->render('category/delete.html.twig', ['category' => $category, 'form' => $form->createView()]);

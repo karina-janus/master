@@ -14,6 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 
+
 #[Route('note')]
 class NoteController extends AbstractController
 {
@@ -73,6 +74,7 @@ class NoteController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/create', name: 'note_create', methods: 'GET|POST', )]
+    #[IsGranted('ROLE_ADMIN')]
     public function create(Request $request): Response
     {
         $note = new Note();
@@ -124,7 +126,7 @@ class NoteController extends AbstractController
                 $this->translator->trans('note.edited_successfully')
             );
 
-            return $this->redirectToRoute('note_index');
+            return $this->redirect($request->headers->get('referer'));
         }
 
         return $this->render('note/edit.html.twig', ['note' => $note, 'form' => $form->createView()]);
@@ -156,7 +158,7 @@ class NoteController extends AbstractController
                 $this->translator->trans('note.deleted_successfully')
             );
 
-            return $this->redirectToRoute('note_index');
+            return $this->redirect($request->headers->get('referer'));
         }
 
         return $this->render('note/delete.html.twig', ['note' => $note, 'form' => $form->createView()]);
