@@ -13,9 +13,7 @@ class NoteService implements NoteServiceInterface
     private NoteRepository $noteRepository;
     private PaginatorInterface $paginator;
 
-    /**
-     * @param NoteRepository $repository
-     */
+
     public function __construct(
         NoteRepository $repository,
         PaginatorInterface $paginator

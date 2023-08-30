@@ -9,7 +9,7 @@ interface NoteServiceInterface
 {
     public function getPaginatedList(int $page): PaginationInterface;
 
-    public function save (Note $task) : void;
+    public function save (Note $note) : void;
 
-    public function delete (Note $task) : void;
+    public function delete (Note $note) : void;
 }

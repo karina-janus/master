@@ -1,17 +1,26 @@
 {% block body %}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="#">{{ 'app.name'|trans }}</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('task_index') }}">{{ 'label.task_list'|trans }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('note_index') }}">{{ 'label.note_list'|trans }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('task_index') }}">{{ 'label.category_list'|trans }}</a>
+            </li>
             {% if app.user %}
-                <li class="nav-item">
-                    <span class="nav-link">{{ app.user.username }}</span>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ path('app_logout') }}">{{ 'action.logout'|trans }}</a>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ app.user.username }}</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="nav-link" href="{{ path('app_logout') }}">{{ 'action.logout'|trans }}</a>
+                    </div>
                 </li>
             {% else %}
                 <li class="nav-item">
