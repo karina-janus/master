@@ -10,4 +10,6 @@ interface TaskServiceInterface
     public function getPaginatedList(int $page): PaginationInterface;
 
     public function save (Task $task) : void;
+
+    public function delete (Task $task) : void;
 }

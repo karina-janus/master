@@ -5,7 +5,9 @@
 
 namespace App\Form\Type;
 
+use App\Entity\Category;
 use App\Entity\Task;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -37,7 +39,18 @@ class TaskType extends AbstractType
                 'required' => true,
                 'attr' => ['max_length' => 64],
             ])
-        ->setMethod('PUT');
+            ->add(
+                'category',
+                EntityType::class,
+                [
+                    'label' => 'label.category',
+                    'class' => Category::class,
+                    'choice_label' => function ($category): string {
+                        return $category->getTitle();
+                    },
+                    'required' => true,
+                ]
+            );
     }
 
     /**

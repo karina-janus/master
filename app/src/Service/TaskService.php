@@ -37,4 +37,9 @@ class TaskService implements TaskServiceInterface
     {
         $this->taskRepository->save($task, true);
     }
+
+    public function delete(Task $task): void
+    {
+        $this->taskRepository->remove($task, true);
+    }
 }

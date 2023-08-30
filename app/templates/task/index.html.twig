@@ -7,6 +7,10 @@
 {% block body %}
 
     <h1>{{ 'title.task_list'|trans }}</h1>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <a type="button" class="btn btn-primary mb-3" href="{{ url('task_create') }}">{{ 'action.create_task'|trans }}</a>
+    {% endif %}
     {% if pagination is defined and pagination.items|length %}
 
         <div class="navigation text-center">
@@ -33,9 +37,30 @@
                     <td>{{ task.title }}</td>
                     <td>{{ task.category.title }}</td>
                     <td>
-                        <a href="{{ url('task_show', {id: task.id}) }}" title="{{ 'action.show'|trans }}">
+                        <a type="button"
+                           class="btn btn-secondary"
+                           href="{{ url('task_show', {id: task.id}) }}"
+                           title="{{ 'action.show'|trans }}"
+                        >
                             {{ 'action.show'|trans }}
                         </a>
+
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a type="button"
+                               class="btn btn-info"
+                               href="{{ url('task_edit', {id: task.id}) }}"
+                               title="{{ 'action.edit_task'|trans }}"
+                            >
+                                {{ 'action.edit_task'|trans }}
+                            </a>
+                            <a type="button"
+                            class="btn btn-danger"
+                            href="{{ url('task_delete', {id: task.id}) }}"
+                            title="{{ 'action.delete_task'|trans }}"
+                            >
+                            {{ 'action.delete_task'|trans }}
+                            </a>
+                        {% endif %}
                     </td>
                 </tr>
             {% endfor %}
