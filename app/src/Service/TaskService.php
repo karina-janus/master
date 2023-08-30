@@ -2,13 +2,14 @@
 
 namespace App\Service;
 
+use App\Entity\Task;
 use App\Repository\TaskRepository;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
 class TaskService implements TaskServiceInterface
 {
-    private TaskRepository $repository;
+    private TaskRepository $taskRepository;
     private PaginatorInterface $paginator;
 
     /**
@@ -19,16 +20,21 @@ class TaskService implements TaskServiceInterface
         PaginatorInterface $paginator
     )
     {
-        $this->repository = $repository;
+        $this->taskRepository = $repository;
         $this->paginator = $paginator;
     }
 
     public function getPaginatedList(int $page): PaginationInterface
     {
         return $this->paginator->paginate(
-            $this->repository->queryAll(),
+            $this->taskRepository->queryAll(),
             $page,
             TaskRepository::PAGINATOR_ITEMS_PER_PAGE
         );
+    }
+
+    public function save(Task $task): void
+    {
+        $this->taskRepository->save($task, true);
     }
 }
