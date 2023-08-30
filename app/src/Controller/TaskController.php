@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
+
 #[Route('task')]
 class TaskController extends AbstractController
 {
@@ -35,11 +36,18 @@ class TaskController extends AbstractController
         );
     }
 
+    /**
+     * View a task.
+     *
+     * @param Task $task Task entity
+     *
+     * @return Response HTTP response
+     */
     #[Route(
         '/{id}',
         name: 'task_show',
-        methods: 'GET',
-        requirements: ['id' => '[1-9]\d*']
+        requirements: ['id' => '[1-9]\d*'],
+        methods: 'GET'
     )]
     public function show(Task $task): Response
     {
