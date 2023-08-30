@@ -2,8 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Category;
 use App\Entity\Task;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -31,6 +33,15 @@ class TaskRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Task::class);
+    }
+
+    public function queryByCategory (Category $category) : QueryBuilder
+    {
+        return $this->getOrCreateQueryBuilder()
+            ->select('task')
+            ->where('category.id = :categoryId')
+            ->join('task.category', 'category')
+            ->setParameter('categoryId', $category->getId());
     }
 
     public function save(Task $entity, bool $flush = false): void

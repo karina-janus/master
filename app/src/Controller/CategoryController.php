@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Form\Type\CategoryType;
 use App\Service\CategoryServiceInterface;
+use App\Service\NoteServiceInterface;
+use App\Service\TaskServiceInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
@@ -19,11 +21,17 @@ class CategoryController extends AbstractController
 {
     private CategoryServiceInterface $categoryService;
 
+    private TaskServiceInterface $taskService;
+
+    private NoteServiceInterface $noteService;
+
     private TranslatorInterface $translator;
 
-    public function __construct(CategoryServiceInterface $categoryService, TranslatorInterface $translator)
+    public function __construct(CategoryServiceInterface $categoryService, TaskServiceInterface $taskService, NoteServiceInterface $noteService, TranslatorInterface $translator)
     {
         $this->categoryService = $categoryService;
+        $this->taskService = $taskService;
+        $this->noteService = $noteService;
         $this->translator = $translator;
     }
 
@@ -36,7 +44,6 @@ class CategoryController extends AbstractController
     {
         $page = $request->query->getAlnum('page', 1);
         $pagination = $this->categoryService->getPaginatedList($page);
-
         return $this->render(
             'category/index.html.twig',
             ['pagination' => $pagination]
@@ -57,11 +64,18 @@ class CategoryController extends AbstractController
         requirements: ['id' => '[1-9]\d*'],
         methods: 'GET'
     )]
-    public function show(Category $category): Response
+    public function show(Request $request, Category $category): Response
     {
+        $page = $request->query->getAlnum('page', 1);
+        $categoryTasks = $this->taskService->getPaginatedListByCategory($page, $category);
+        $categoryNotes = $this->noteService->getPaginatedListByCategory($page, $category);
+
         return $this->render(
-            'category/show.html.twig',
-            ['category' => $category]
+            'category/show.html.twig', [
+                'category' => $category,
+                'tasks' => $categoryTasks,
+                'notes' => $categoryNotes
+            ]
         );
     }
 
@@ -150,11 +164,18 @@ class CategoryController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->categoryService->delete($category);
-            $this->addFlash(
-                'success',
-                $this->translator->trans('category.deleted_successfully')
-            );
+            if ($this->categoryService->delete($category))  {
+                $this->addFlash(
+                    'success',
+                    $this->translator->trans('category.deleted_successfully')
+                );
+            }
+            else {
+                $this->addFlash(
+                    'warning',
+                    $this->translator->trans('category.cant_be_deleted')
+                );
+            }
 
             return $this->redirectToRoute('category_index');
         }

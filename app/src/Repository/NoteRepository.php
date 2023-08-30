@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Category;
 use App\Entity\Note;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -31,6 +32,15 @@ class NoteRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Note::class);
+    }
+
+    public function queryByCategory (Category $category) : QueryBuilder
+    {
+        return $this->getOrCreateQueryBuilder()
+            ->select('note')
+            ->where('category.id = :categoryId')
+            ->join('note.category', 'category')
+            ->setParameter('categoryId', $category->getId());
     }
 
     public function save(Note $entity, bool $flush = false): void

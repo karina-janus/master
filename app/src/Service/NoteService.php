@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use App\Entity\Category;
 use App\Entity\Note;
 use App\Repository\NoteRepository;
 use DateTimeImmutable;
@@ -15,7 +16,7 @@ class NoteService implements NoteServiceInterface
 
 
     public function __construct(
-        NoteRepository $repository,
+        NoteRepository        $repository,
         PaginatorInterface $paginator
     )
     {
@@ -27,6 +28,15 @@ class NoteService implements NoteServiceInterface
     {
         return $this->paginator->paginate(
             $this->noteRepository->queryAll(),
+            $page,
+            NoteRepository::PAGINATOR_ITEMS_PER_PAGE
+        );
+    }
+
+    public function getPaginatedListByCategory(int $page, Category $category): PaginationInterface
+    {
+        return $this->paginator->paginate(
+            $this->noteRepository->queryByCategory($category),
             $page,
             NoteRepository::PAGINATOR_ITEMS_PER_PAGE
         );

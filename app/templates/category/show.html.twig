@@ -1,0 +1,165 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ 'title.category_details'|trans({'%id%': category.id|default('')}) }}
+{% endblock %}
+
+{% block body %}
+    <h1>{{ 'title.category_details'|trans({'%id%': category.id|default('')}) }}</h1>
+    {% if category is defined and category|length %}
+        <dl class="dl-horizontal">
+            <dt>{{ 'label.id'|trans }}</dt>
+            <dd>{{ category.id }}</dd>
+            <dt>{{ 'label.created_at'|trans }}</dt>
+            <dd>{{ category.createdAt|date('Y/m/d') }}</dd>
+            <dt>{{ 'label.updated_at'|trans }}</dt>
+            <dd>{{ category.updatedAt|date('Y/m/d') }}</dd>
+            <dt>{{ 'label.title'|trans }}</dt>
+            <dd>{{  category.title }}</dd>
+        </dl>
+        <p>
+            {% if is_granted('ROLE_ADMIN') %}
+                <a type="button"
+                   class="btn btn-info my-1"
+                   href="{{ url('category_edit', {id: category.id}) }}"
+                   title="{{ 'action.edit'|trans }}"
+                >
+                    {{ 'action.edit'|trans }}
+                </a><br>
+                <a type="button"
+                   class="btn btn-danger my-1"
+                   href="{{ url('category_delete', {id: category.id}) }}"
+                   title="{{ 'action.delete'|trans }}"
+                >
+                    {{ 'action.delete'|trans }}
+                </a><br>
+            {% endif %}
+            <a href="{{ url('category_index') }}" title="{{ 'action.back_to_list'|trans }}">
+                {{ 'action.back_to_list'|trans }}
+            </a>
+        </p>
+    {% else %}
+        <p>
+            {{ 'message.record_not_found'|trans }}
+        </p>
+    {% endif %}
+
+        <dt>{{ 'label.tasks'|trans }}</dt>
+
+    {% if tasks is defined and tasks.items|length %}
+        <div class="navigation text-center">
+            {{ knp_pagination_render(tasks) }}
+        </div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>{{ knp_pagination_sortable(tasks, 'label.id'|trans, 'task.id') }}</th>
+                <th>{{ knp_pagination_sortable(tasks, 'label.created_at'|trans, 'task.createdAt') }}</th>
+                <th>{{ knp_pagination_sortable(tasks, 'label.updated_at'|trans, 'task.updatedAt') }}</th>
+                <th>{{ knp_pagination_sortable(tasks, 'label.title'|trans, 'task.title') }}</th>
+                <th>{{ 'label.actions'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for task in tasks.items %}
+                <tr>
+                    <td>{{ task.id }}</td>
+                    <td>{{ task.createdAt|format_date('long') }}</td>
+                    <td>{{ task.updatedAt|format_date('long') }}</td>
+                    <td>{{ task.title }}</td>
+                    <td>
+                        <a type="button"
+                           class="btn btn-secondary"
+                           href="{{ url('task_show', {id: task.id}) }}"
+                           title="{{ 'action.show'|trans }}"
+                        >
+                            {{ 'action.show'|trans }}
+                        </a>
+
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a type="button"
+                               class="btn btn-info"
+                               href="{{ url('task_edit', {id: task.id}) }}"
+                               title="{{ 'action.edit'|trans }}"
+                            >
+                                {{ 'action.edit'|trans }}
+                            </a>
+                            <a type="button"
+                               class="btn btn-danger"
+                               href="{{ url('task_delete', {id: task.id}) }}"
+                               title="{{ 'action.delete'|trans }}"
+                            >
+                                {{ 'action.delete'|trans }}
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="navigation text-center">
+            {{ knp_pagination_render(tasks) }}
+        </div>
+    {% else %}
+        <h2>{{ 'message.list_empty'|trans }}</h2>
+    {% endif %}
+
+    <dt class="mt-3">{{ 'label.notes'|trans }}</dt>
+    {% if notes is defined and notes.items|length %}
+        <div class="navigation text-center">
+            {{ knp_pagination_render(tasks) }}
+        </div>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>{{ knp_pagination_sortable(notes, 'label.id'|trans, 'note.id') }}</th>
+                <th>{{ knp_pagination_sortable(notes, 'label.created_at'|trans, 'note.createdAt') }}</th>
+                <th>{{ knp_pagination_sortable(notes, 'label.updated_at'|trans, 'note.updatedAt') }}</th>
+                <th>{{ knp_pagination_sortable(notes, 'label.title'|trans, 'note.title') }}</th>
+                <th>{{ 'label.actions'|trans }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for note in notes.items %}
+                <tr>
+                    <td>{{ note.id }}</td>
+                    <td>{{ note.createdAt|format_date('long') }}</td>
+                    <td>{{ note.updatedAt|format_date('long') }}</td>
+                    <td>{{ note.title }}</td>
+                    <td>
+                        <a type="button"
+                           class="btn btn-secondary"
+                           href="{{ url('note_show', {id: note.id}) }}"
+                           title="{{ 'action.show'|trans }}"
+                        >
+                            {{ 'action.show'|trans }}
+                        </a>
+
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a type="button"
+                               class="btn btn-info"
+                               href="{{ url('note_edit', {id: note.id}) }}"
+                               title="{{ 'action.edit'|trans }}"
+                            >
+                                {{ 'action.edit'|trans }}
+                            </a>
+                            <a type="button"
+                               class="btn btn-danger"
+                               href="{{ url('note_delete', {id: note.id}) }}"
+                               title="{{ 'action.delete'|trans }}"
+                            >
+                                {{ 'action.delete'|trans }}
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="navigation text-center">
+            {{ knp_pagination_render(tasks) }}
+        </div>
+        {% else %}
+        <p>{{ 'message.list_empty'|trans }}</p>
+    {% endif %}
+{% endblock %}

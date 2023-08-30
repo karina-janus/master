@@ -15,7 +15,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 
-#[Route('')]
 #[Route('task')]
 class TaskController extends AbstractController
 {
