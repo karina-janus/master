@@ -1,45 +1,47 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ 'title.task_details'|trans({'%id%': task.id|default('')}) }}
+    {{ 'title.note_details'|trans({'%id%': note.id|default('')}) }}
 {% endblock %}
 
 {% block body %}
-    <h1>{{ 'title.task_details'|trans({'%id%': task.id|default('')}) }}</h1>
-    {% if task is defined and task|length %}
+    <h1>{{ 'title.note_details'|trans({'%id%': note.id|default('')}) }}</h1>
+    {% if note is defined and note|length %}
         <dl class="dl-horizontal">
             <dt>{{ 'label.id'|trans }}</dt>
-            <dd>{{ task.id }}</dd>
+            <dd>{{ note.id }}</dd>
             <dt>{{ 'label.created_at'|trans }}</dt>
-            <dd>{{ task.createdAt|date('Y/m/d') }}</dd>
+            <dd>{{ note.createdAt|date('Y/m/d') }}</dd>
             <dt>{{ 'label.updated_at'|trans }}</dt>
-            <dd>{{ task.updatedAt|date('Y/m/d') }}</dd>
+            <dd>{{ note.updatedAt|date('Y/m/d') }}</dd>
             <dt>{{ 'label.title'|trans }}</dt>
-            <dd>{{  task.title }}</dd>
+            <dd>{{  note.title }}</dd>
+            <dt>{{ 'label.content'|trans }}</dt>
+            <dd>{{  note.content }}</dd>
             <dt>{{ 'label.category'|trans }}</dt>
-            <dd>{{  task.category.id }}</dd>
-            <dd>{{  task.category.title }}</dd>
+            <dd>{{  note.category.id }}</dd>
+            <dd>{{  note.category.title }}</dd>
         </dl>
         <p>
-            <a href="{{ url('task_index') }}" title="{{ 'action.back_to_list'|trans }}">
-                {{ 'action.back_to_list'|trans }}
-            </a>
             {% if is_granted('ROLE_ADMIN') %}
                 <a type="button"
                    class="btn btn-info my-1"
-                   href="{{ url('task_edit', {id: task.id}) }}"
+                   href="{{ url('note_edit', {id: note.id}) }}"
                    title="{{ 'action.edit'|trans }}"
                 >
                     {{ 'action.edit'|trans }}
                 </a><br>
                 <a type="button"
                    class="btn btn-danger my-1"
-                   href="{{ url('task_delete', {id: task.id}) }}"
+                   href="{{ url('note_delete', {id: note.id}) }}"
                    title="{{ 'action.delete'|trans }}"
                 >
                     {{ 'action.delete'|trans }}
                 </a><br>
             {% endif %}
+            <a href="{{ url('note_index') }}" title="{{ 'action.back_to_list'|trans }}">
+                {{ 'action.back_to_list'|trans }}
+            </a>
         </p>
     {% else %}
         <p>
