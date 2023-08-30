@@ -6,6 +6,7 @@ use App\Repository\NoteRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: NoteRepository::class)]
+#[ORM\Table(name: 'notes')]
 class Note
 {
     #[ORM\Id]
@@ -16,7 +17,7 @@ class Note
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 2048)]
     private ?string $content = null;
 
     #[ORM\Column]
@@ -24,6 +25,9 @@ class Note
 
     #[ORM\Column]
     private ?\DateTimeImmutable $updatedAt = null;
+
+    #[ORM\ManyToOne]
+    private ?Category $category = null;
 
     public function getId(): ?int
     {
@@ -74,6 +78,18 @@ class Note
     public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }
