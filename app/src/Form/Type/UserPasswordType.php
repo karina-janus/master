@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * User password type.
+ */
+
 namespace App\Form\Type;
 
 use App\Entity\User;
@@ -13,8 +17,6 @@ use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
  * Class PasswordChangeType.
- *
- * Form type for changing the user's password.
  */
 class UserPasswordType extends AbstractType
 {

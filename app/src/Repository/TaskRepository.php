@@ -1,41 +1,47 @@
 <?php
 
+/*
+ * Task repository.
+ */
+
 namespace App\Repository;
 
 use App\Entity\Category;
 use App\Entity\Task;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\DBAL\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Task>
+ * Class TaskRepository.
  *
- * @method Task|null find($id, $lockMode = null, $lockVersion = null)
- * @method Task|null findOneBy(array $criteria, array $orderBy = null)
- * @method Task[]    findAll()
- * @method Task[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<Task>
  */
 class TaskRepository extends ServiceEntityRepository
 {
     /**
-     * Items per page.
-     *
-     * Use constants to define configuration options that rarely change instead
-     * of specifying them in configuration files.
-     * See https://symfony.com/doc/current/best_practices.html#configuration
-     *
-     * @constant int
+     * Number of items per page for pagination.
      */
     public const PAGINATOR_ITEMS_PER_PAGE = 10;
 
+    /**
+     * TaskRepository constructor.
+     *
+     * @param ManagerRegistry $registry The registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Task::class);
     }
 
-    public function queryByCategory (Category $category) : QueryBuilder
+    /**
+     * Create a query builder to retrieve tasks by category.
+     *
+     * @param Category $category The category entity
+     *
+     * @return QueryBuilder The query builder
+     */
+    public function queryByCategory(Category $category): QueryBuilder
     {
         return $this->getOrCreateQueryBuilder()
             ->select('task')
@@ -44,6 +50,12 @@ class TaskRepository extends ServiceEntityRepository
             ->setParameter('categoryId', $category->getId());
     }
 
+    /**
+     * Save a Task entity.
+     *
+     * @param Task $entity The Task entity
+     * @param bool $flush  Whether to flush the changes immediately
+     */
     public function save(Task $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
@@ -53,6 +65,12 @@ class TaskRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Remove a Task entity.
+     *
+     * @param Task $entity The Task entity
+     * @param bool $flush  Whether to flush the changes immediately
+     */
     public function remove(Task $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
@@ -63,7 +81,7 @@ class TaskRepository extends ServiceEntityRepository
     }
 
     /**
-     * Query all records.
+     * Create a query builder for all records.
      *
      * @return QueryBuilder Query builder
      */
@@ -79,39 +97,14 @@ class TaskRepository extends ServiceEntityRepository
     }
 
     /**
-     * Get or create new query builder.
+     * Get or create a new QueryBuilder instance.
      *
-     * @param QueryBuilder|null $queryBuilder Query builder
+     * @param QueryBuilder|null $queryBuilder The QueryBuilder instance
      *
-     * @return QueryBuilder Query builder
+     * @return QueryBuilder The QueryBuilder instance
      */
     private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
     {
         return $queryBuilder ?? $this->createQueryBuilder('task');
     }
-
-//    /**
-//     * @return Task[] Returns an array of Task objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Task
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

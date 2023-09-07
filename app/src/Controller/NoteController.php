@@ -1,4 +1,7 @@
 <?php
+/**
+ * Note controller.
+ */
 
 namespace App\Controller;
 
@@ -13,21 +16,41 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-
-
+/**
+ * Class NoteController.
+ */
 #[Route('note')]
 class NoteController extends AbstractController
 {
+    /**
+     * Note service.
+     */
     private NoteServiceInterface $noteService;
 
+    /**
+     * Translator.
+     */
     private TranslatorInterface $translator;
 
+    /**
+     * Constructor.
+     *
+     * @param NoteServiceInterface $noteService Note service
+     * @param TranslatorInterface  $translator  Translator
+     */
     public function __construct(NoteServiceInterface $noteService, TranslatorInterface $translator)
     {
         $this->noteService = $noteService;
         $this->translator = $translator;
     }
 
+    /**
+     * Index action.
+     *
+     * @param Request $request HTTP Request
+     *
+     * @return Response HTTP response
+     */
     #[Route(
         '',
         name: 'note_index',
@@ -43,7 +66,6 @@ class NoteController extends AbstractController
             ['pagination' => $pagination]
         );
     }
-
 
     /**
      * View a note.
@@ -73,7 +95,7 @@ class NoteController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/create', name: 'note_create', methods: 'GET|POST', )]
+    #[Route('/create', name: 'note_create', methods: 'GET|POST')]
     #[IsGranted('ROLE_ADMIN')]
     public function create(Request $request): Response
     {
@@ -96,10 +118,17 @@ class NoteController extends AbstractController
             return $this->redirectToRoute('note_index');
         }
 
-        return $this->render('note/create.html.twig',  ['form' => $form->createView()]);
+        return $this->render('note/create.html.twig', ['form' => $form->createView()]);
     }
 
-
+    /**
+     * Edit action.
+     *
+     * @param Request $request HTTP request
+     * @param Note    $note    Note entity
+     *
+     * @return Response HTTP response
+     */
     #[Route(
         '/{id}/edit',
         name: 'note_edit',
@@ -123,7 +152,7 @@ class NoteController extends AbstractController
             $this->noteService->save($note);
             $this->addFlash(
                 'success',
-                $this->translator->trans('note.edited_successfully')
+                $this->translator->trans('message.edited_successfully')
             );
 
             return $this->redirect($request->headers->get('referer'));
@@ -132,6 +161,14 @@ class NoteController extends AbstractController
         return $this->render('note/edit.html.twig', ['note' => $note, 'form' => $form->createView()]);
     }
 
+    /**
+     * Delete action.
+     *
+     * @param Request $request HTTP request
+     * @param Note    $note    Note entity
+     *
+     * @return Response HTTP response
+     */
     #[Route(
         '/{id}/delete',
         name: 'note_delete',
@@ -155,7 +192,7 @@ class NoteController extends AbstractController
             $this->noteService->delete($note);
             $this->addFlash(
                 'success',
-                $this->translator->trans('note.deleted_successfully')
+                $this->translator->trans('message.deleted_successfully')
             );
 
             return $this->redirect($request->headers->get('referer'));

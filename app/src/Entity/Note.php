@@ -1,13 +1,19 @@
 <?php
 
+/**
+ * Note entity.
+ */
+
 namespace App\Entity;
 
 use App\Repository\NoteRepository;
-use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: NoteRepository::class)]
 #[ORM\Table(name: 'notes')]
+/**
+ * Class Note.
+ */
 class Note
 {
     #[ORM\Id]
@@ -15,83 +21,143 @@ class Note
     #[ORM\Column]
     private ?int $id = null;
 
+    /**
+     * @var string|null $title Title of the note
+     */
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
+    /**
+     * @var string|null $content Content of the note
+     */
     #[ORM\Column(length: 2048)]
     private ?string $content = null;
 
+    /**
+     * @var \DateTimeImmutable|null $createdAt Date and time when the note was created
+     */
     #[ORM\Column]
-    private ?DateTimeImmutable $createdAt = null;
+    private ?\DateTimeImmutable $createdAt = null;
 
+    /**
+     * @var \DateTimeImmutable|null $updatedAt Date and time when the note was last updated
+     */
     #[ORM\Column]
-    private ?DateTimeImmutable $updatedAt = null;
+    private ?\DateTimeImmutable $updatedAt = null;
 
+    /**
+     * @var Category|null $category Category associated with the note
+     */
     #[ORM\ManyToOne]
     private ?Category $category = null;
 
+    /**
+     * Getter for Id.
+     *
+     * @return int|null Id
+     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
+    /**
+     * Getter for Title.
+     *
+     * @return string|null Title
+     */
     public function getTitle(): ?string
     {
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    /**
+     * Setter for Title.
+     *
+     * @param string|null $title Title
+     */
+    public function setTitle(?string $title): void
     {
         $this->title = $title;
-
-        return $this;
     }
 
+    /**
+     * Getter for Content.
+     *
+     * @return string|null Content
+     */
     public function getContent(): ?string
     {
         return $this->content;
     }
 
-    public function setContent(string $content): self
+    /**
+     * Setter for Content.
+     *
+     * @param string|null $content Content
+     */
+    public function setContent(?string $content): void
     {
         $this->content = $content;
-
-        return $this;
     }
 
-    public function getCreatedAt(): ?DateTimeImmutable
+    /**
+     * Getter for CreatedAt.
+     *
+     * @return \DateTimeImmutable|null CreatedAt
+     */
+    public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(DateTimeImmutable $createdAt): self
+    /**
+     * Setter for CreatedAt.
+     *
+     * @param \DateTimeImmutable|null $createdAt CreatedAt
+     */
+    public function setCreatedAt(?\DateTimeImmutable $createdAt): void
     {
         $this->createdAt = $createdAt;
-
-        return $this;
     }
 
-    public function getUpdatedAt(): ?DateTimeImmutable
+    /**
+     * Getter for UpdatedAt.
+     *
+     * @return \DateTimeImmutable|null UpdatedAt
+     */
+    public function getUpdatedAt(): ?\DateTimeImmutable
     {
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(DateTimeImmutable $updatedAt): self
+    /**
+     * Setter for UpdatedAt.
+     *
+     * @param \DateTimeImmutable|null $updatedAt UpdatedAt
+     */
+    public function setUpdatedAt(?\DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
-
-        return $this;
     }
 
+    /**
+     * Getter for Category.
+     *
+     * @return Category|null Category
+     */
     public function getCategory(): ?Category
     {
         return $this->category;
     }
 
-    public function setCategory(?Category $category): self
+    /**
+     * Setter for Category.
+     *
+     * @param Category|null $category Category
+     */
+    public function setCategory(?Category $category): void
     {
         $this->category = $category;
-
-        return $this;
     }
 }

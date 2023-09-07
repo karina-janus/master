@@ -1,4 +1,7 @@
 <?php
+/**
+ * Task controller.
+ */
 
 namespace App\Controller;
 
@@ -13,20 +16,41 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-
+/**
+ * Class TaskController.
+ */
 #[Route('task')]
 class TaskController extends AbstractController
 {
+    /**
+     * Task service.
+     */
     private TaskServiceInterface $taskService;
 
+    /**
+     * Translator.
+     */
     private TranslatorInterface $translator;
 
+    /**
+     * Constructor.
+     *
+     * @param TaskServiceInterface $taskService Task service
+     * @param TranslatorInterface  $translator  Translator
+     */
     public function __construct(TaskServiceInterface $taskService, TranslatorInterface $translator)
     {
         $this->taskService = $taskService;
         $this->translator = $translator;
     }
 
+    /**
+     * Index action.
+     *
+     * @param Request $request HTTP Request
+     *
+     * @return Response HTTP response
+     */
     #[Route(
         '',
         name: 'task_index',
@@ -42,7 +66,6 @@ class TaskController extends AbstractController
             ['pagination' => $pagination]
         );
     }
-
 
     /**
      * View a task.
@@ -72,7 +95,11 @@ class TaskController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/create', name: 'task_create', methods: 'GET|POST', )]
+    #[Route(
+        '/create',
+        name: 'task_create',
+        methods: 'GET|POST'
+    )]
     #[IsGranted('ROLE_ADMIN')]
     public function create(Request $request): Response
     {
@@ -95,10 +122,17 @@ class TaskController extends AbstractController
             return $this->redirectToRoute('task_index');
         }
 
-        return $this->render('task/create.html.twig',  ['form' => $form->createView()]);
+        return $this->render('task/create.html.twig', ['form' => $form->createView()]);
     }
 
-
+    /**
+     * Edit action.
+     *
+     * @param Request $request HTTP request
+     * @param Task    $task    Task entity
+     *
+     * @return Response HTTP response
+     */
     #[Route(
         '/{id}/edit',
         name: 'task_edit',
@@ -122,7 +156,7 @@ class TaskController extends AbstractController
             $this->taskService->save($task);
             $this->addFlash(
                 'success',
-                $this->translator->trans('task.edited_successfully')
+                $this->translator->trans('message.edited_successfully')
             );
 
             return $this->redirectToRoute('task_index');
@@ -131,6 +165,14 @@ class TaskController extends AbstractController
         return $this->render('task/edit.html.twig', ['task' => $task, 'form' => $form->createView()]);
     }
 
+    /**
+     * Delete action.
+     *
+     * @param Request $request HTTP request
+     * @param Task    $task    Task entity
+     *
+     * @return Response HTTP response
+     */
     #[Route(
         '/{id}/delete',
         name: 'task_delete',
@@ -154,7 +196,7 @@ class TaskController extends AbstractController
             $this->taskService->delete($task);
             $this->addFlash(
                 'success',
-                $this->translator->trans('task.deleted_successfully')
+                $this->translator->trans('message.deleted_successfully')
             );
 
             return $this->redirectToRoute('task_index');

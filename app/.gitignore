@@ -18,12 +18,13 @@
 
 ###> symfony/phpunit-bridge ###
 .phpunit.result.cache
-/phpunit.xml
+/phpunit.xml.dist
 ###< symfony/phpunit-bridge ###
 
 ###> friendsofphp/php-cs-fixer ###
 /.php-cs-fixer.php
 /.php-cs-fixer.cache
+phpcs.xml.dist
 ###< friendsofphp/php-cs-fixer ###
 
 ###> squizlabs/php_codesniffer ###
@@ -34,3 +35,4 @@
 ###> phpdoc ###
 /.phpdoc
 ###< phpdoc ###
+

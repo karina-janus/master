@@ -38,7 +38,8 @@ class TaskType extends AbstractType
                 'label' => 'label.title',
                 'required' => true,
                 'attr' => ['max_length' => 64],
-            ])
+            ]
+        )
             ->add(
                 'category',
                 EntityType::class,

@@ -20,6 +20,8 @@ class UserFixtures extends AbstractBaseFixtures
     private UserPasswordHasherInterface $passwordHasher;
 
     /**
+     * Constructor.
+     *
      * @param UserPasswordHasherInterface $passwordHasher Password hasher
      */
     public function __construct(UserPasswordHasherInterface $passwordHasher)
@@ -49,7 +51,6 @@ class UserFixtures extends AbstractBaseFixtures
 
             return $user;
         });
-
 
         $this->createMany(3, 'admins', function (int $i) {
             $user = new User();

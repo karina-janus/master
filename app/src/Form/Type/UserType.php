@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * User type.
+ */
+
 namespace App\Form\Type;
 
 use App\Entity\User;
@@ -12,9 +16,7 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
 /**
- * Class PasswordChangeType.
- *
- * Form type for changing the user's password.
+ * Class UserType.
  */
 class UserType extends AbstractType
 {

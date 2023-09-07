@@ -1,11 +1,13 @@
 <?php
+/**
+ * User credentials controller.
+ */
 
 namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\Type\UserEmailType;
 use App\Form\Type\UserPasswordType;
-use App\Form\Type\UserType;
 use App\Service\UserService;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,11 +19,11 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
- * Class UserUtilsController.
+ * Class UserCredentialsController.
  */
 #[Route('/user')]
 #[IsGranted('ROLE_USER')]
-class CredentialsController extends AbstractController
+class UserCredentialsController extends AbstractController
 {
     /**
      * UserService.
@@ -44,7 +46,7 @@ class CredentialsController extends AbstractController
     private UserPasswordHasherInterface $passwordHasher;
 
     /**
-     * UserUtilsController constructor.
+     * UserCredentialsController constructor.
      *
      * @param UserService                 $userService    User service
      * @param Security                    $security       Security
@@ -60,7 +62,7 @@ class CredentialsController extends AbstractController
     }
 
     /**
-     * Change user email.
+     * Change logged-in user's email.
      *
      * @param Request $request HTTP request
      *
@@ -100,7 +102,7 @@ class CredentialsController extends AbstractController
     }
 
     /**
-     * Change user password.
+     * Change logged-in user's password.
      *
      * @param Request $request HTTP request
      *
@@ -122,7 +124,7 @@ class CredentialsController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $oldPassword = $form->get('password')->getData();
             $newPassword = $form->get('new_password')->getData();
-            if (strcmp($user->getPassword(), $oldPassword) == 0) {
+            if (0 === strcmp($user->getPassword(), $oldPassword)) {
                 $user->setPassword(
                     $this->passwordHasher->hashPassword($user, $newPassword)
                 );

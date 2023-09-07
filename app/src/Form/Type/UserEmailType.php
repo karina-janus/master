@@ -1,18 +1,22 @@
 <?php
 
+/**
+ * User email type.
+ */
+
 namespace App\Form\Type;
 
-use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\RepeatedType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\Regex;
 
+/**
+ * Class UserEmailType.
+ */
 class UserEmailType extends AbstractType
 {
     /**
@@ -32,9 +36,6 @@ class UserEmailType extends AbstractType
                 'constraints' => [
                     new NotBlank([
                         'message' => 'message.field_blank',
-                    ]),
-                    new Email([
-                        'message' => 'message.email_invalid',
                     ]),
                     new Length([
                         'min' => 6,

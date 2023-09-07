@@ -1,4 +1,7 @@
 <?php
+/**
+ * User controller.
+ */
 
 namespace App\Controller;
 
@@ -14,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Class UserCrudController.
+ * Class UserController.
  */
 #[Route('/user')]
 #[IsGranted('ROLE_ADMIN')]
@@ -25,17 +28,16 @@ class UserController extends AbstractController
      */
     private UserServiceInterface $userService;
 
-
     /**
      * Translator.
      */
     private TranslatorInterface $translator;
 
     /**
-     * UserCrudController constructor.
+     * UserController constructor.
      *
      * @param UserServiceInterface $userService The user service
-     * @param TranslatorInterface $translator The translator
+     * @param TranslatorInterface  $translator  The translator
      */
     public function __construct(UserServiceInterface $userService, TranslatorInterface $translator)
     {
@@ -76,7 +78,7 @@ class UserController extends AbstractController
         return $this->render(
             'user/show.html.twig',
             [
-                'user' => $user
+                'user' => $user,
             ]
         );
     }
@@ -98,7 +100,7 @@ class UserController extends AbstractController
     public function edit(Request $request, User $user): Response
     {
         $form = $this->createForm(
-            UserType::class, //todo
+            UserType::class, // todo
             $user,
             [
                 'method' => 'PUT',
@@ -111,7 +113,7 @@ class UserController extends AbstractController
             $this->userService->save($user);
             $this->addFlash(
                 'success',
-                $this->translator->trans('user.edited_successfully')
+                $this->translator->trans('message.edited_successfully')
             );
 
             return $this->redirectToRoute('user_index');
@@ -150,7 +152,7 @@ class UserController extends AbstractController
             $this->userService->delete($user);
             $this->addFlash(
                 'success',
-                $this->translator->trans('user.deleted_successfully')
+                $this->translator->trans('message.deleted_successfully')
             );
 
             return $this->redirectToRoute('user_index');

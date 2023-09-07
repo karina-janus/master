@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Note repository.
+ */
+
 namespace App\Repository;
 
 use App\Entity\Category;
@@ -9,12 +13,9 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Note>
+ * Class NoteRepository.
  *
- * @method Note|null find($id, $lockMode = null, $lockVersion = null)
- * @method Note|null findOneBy(array $criteria, array $orderBy = null)
- * @method Note[]    findAll()
- * @method Note[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @extends ServiceEntityRepository<Note>
  */
 class NoteRepository extends ServiceEntityRepository
 {
@@ -25,16 +26,28 @@ class NoteRepository extends ServiceEntityRepository
      * of specifying them in configuration files.
      * See https://symfony.com/doc/current/best_practices.html#configuration
      *
-     * @constant int
+     * @constant int PAGINATOR_ITEMS_PER_PAGE Items per page.
      */
     public const PAGINATOR_ITEMS_PER_PAGE = 10;
 
+    /**
+     * NoteRepository constructor.
+     *
+     * @param ManagerRegistry $registry The registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Note::class);
     }
 
-    public function queryByCategory (Category $category) : QueryBuilder
+    /**
+     * Query notes by category.
+     *
+     * @param Category $category The category entity
+     *
+     * @return QueryBuilder The query builder
+     */
+    public function queryByCategory(Category $category): QueryBuilder
     {
         return $this->getOrCreateQueryBuilder()
             ->select('note')
@@ -43,6 +56,12 @@ class NoteRepository extends ServiceEntityRepository
             ->setParameter('categoryId', $category->getId());
     }
 
+    /**
+     * Save a note entity.
+     *
+     * @param Note $entity The note entity
+     * @param bool $flush  Whether to flush the changes immediately
+     */
     public function save(Note $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
@@ -52,6 +71,12 @@ class NoteRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Remove a note entity.
+     *
+     * @param Note $entity The note entity
+     * @param bool $flush  Whether to flush the changes immediately
+     */
     public function remove(Note $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
@@ -62,9 +87,9 @@ class NoteRepository extends ServiceEntityRepository
     }
 
     /**
-     * Query all records.
+     * Create a query builder for all records.
      *
-     * @return QueryBuilder Query builder
+     * @return QueryBuilder The query builder
      */
     public function queryAll(): QueryBuilder
     {
@@ -78,39 +103,14 @@ class NoteRepository extends ServiceEntityRepository
     }
 
     /**
-     * Get or create new query builder.
+     * Get or create a new query builder.
      *
-     * @param QueryBuilder|null $queryBuilder Query builder
+     * @param QueryBuilder|null $queryBuilder The query builder
      *
-     * @return QueryBuilder Query builder
+     * @return QueryBuilder The query builder
      */
     private function getOrCreateQueryBuilder(QueryBuilder $queryBuilder = null): QueryBuilder
     {
         return $queryBuilder ?? $this->createQueryBuilder('note');
     }
-
-//    /**
-//     * @return Note[] Returns an array of Note objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Note
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }

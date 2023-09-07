@@ -7,13 +7,10 @@ namespace App\DataFixtures;
 
 use App\Entity\Category;
 use App\Entity\Note;
-use App\Entity\Task;
-use App\Entity\User;
-use DateTimeImmutable;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 /**
- * Class TaskFixtures.
+ * Class NoteFixtures.
  */
 class NoteFixtures extends AbstractBaseFixtures implements DependentFixtureInterface
 {
@@ -35,12 +32,12 @@ class NoteFixtures extends AbstractBaseFixtures implements DependentFixtureInter
             $note->setTitle($this->faker->sentence);
             $note->setContent($this->faker->text(400));
             $note->setCreatedAt(
-                DateTimeImmutable::createFromMutable(
+                \DateTimeImmutable::createFromMutable(
                     $this->faker->dateTimeBetween('-100 days', '-1 days')
                 )
             );
             $note->setUpdatedAt(
-                DateTimeImmutable::createFromMutable(
+                \DateTimeImmutable::createFromMutable(
                     $this->faker->dateTimeBetween('-100 days', '-1 days')
                 )
             );
