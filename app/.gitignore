@@ -36,3 +36,13 @@ phpcs.xml.dist
 /.phpdoc
 ###< phpdoc ###
 
+###> check_code ###
+check_code_si.sh
+check_code.result.cache
+###< check_code ###
+
+###> lock files ###
+composer.lock
+symfony.lock
+###< lock files ###
+
