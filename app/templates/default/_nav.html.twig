@@ -15,12 +15,28 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('category_index') }}">{{ 'label.category_list'|trans }}</a>
             </li>
+            {% if is_granted('ROLE_ADMIN') %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ url('user_index') }}">{{ 'label.user_list'|trans }}</a>
+            </li>
+            {% endif %}
             {% if app.user %}
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ app.user.username }}</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li class="dropdown nav-item">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                    {{ app.user.email }}
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                    <li class="dropdown-item" aria-labelledby="navbarDropdown">
+                        <a class="nav-link" href="{{ path('user_email_edit') }}">{{ 'action.edit_email'|trans }}</a>
+                    </li>
+                    <li class="dropdown-item" aria-labelledby="navbarDropdown">
+                            <a class="nav-link" href="{{ path('user_password_edit') }}">{{ 'action.edit_password'|trans }}</a>
+                    </li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li class="dropdown-item" aria-labelledby="navbarDropdown">
                         <a class="nav-link" href="{{ path('app_logout') }}">{{ 'action.logout'|trans }}</a>
-                    </div>
+                    </li>
+                </ul>
                 </li>
             {% else %}
                 <li class="nav-item">
