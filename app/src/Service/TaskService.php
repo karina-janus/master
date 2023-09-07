@@ -4,18 +4,18 @@ namespace App\Service;
 
 use App\Entity\Category;
 use App\Entity\Task;
-use App\Repository\TaskRepository;
+use App\Repository\UserRepository;
 use DateTimeImmutable;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
 class TaskService implements TaskServiceInterface
 {
-    private TaskRepository $taskRepository;
+    private UserRepository $taskRepository;
     private PaginatorInterface $paginator;
 
     public function __construct(
-        TaskRepository        $repository,
+        UserRepository     $repository,
         PaginatorInterface $paginator
     )
     {
@@ -28,7 +28,7 @@ class TaskService implements TaskServiceInterface
         return $this->paginator->paginate(
             $this->taskRepository->queryAll(),
             $page,
-            TaskRepository::PAGINATOR_ITEMS_PER_PAGE
+            UserRepository::PAGINATOR_ITEMS_PER_PAGE
         );
     }
 
@@ -37,7 +37,7 @@ class TaskService implements TaskServiceInterface
         return $this->paginator->paginate(
             $this->taskRepository->queryByCategory($category),
             $page,
-            TaskRepository::PAGINATOR_ITEMS_PER_PAGE,
+            UserRepository::PAGINATOR_ITEMS_PER_PAGE,
             [PaginatorInterface::SORT_FIELD_PARAMETER_NAME => 'task']
         );
     }

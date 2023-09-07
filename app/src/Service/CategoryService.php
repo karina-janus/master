@@ -5,7 +5,7 @@ namespace App\Service;
 use App\Entity\Category;
 use App\Repository\CategoryRepository;
 use App\Repository\NoteRepository;
-use App\Repository\TaskRepository;
+use App\Repository\UserRepository;
 use DateTimeImmutable;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
@@ -18,14 +18,14 @@ class CategoryService implements CategoryServiceInterface
 
     private NoteRepository $noteRepository;
 
-    private TaskRepository $taskRepository;
+    private UserRepository $taskRepository;
 
     private PaginatorInterface $paginator;
 
     public function __construct(
         CategoryRepository $repository,
-        NoteRepository $noteRepository,
-        TaskRepository $taskRepository,
+        NoteRepository     $noteRepository,
+        UserRepository     $taskRepository,
         PaginatorInterface $paginator
     )
     {

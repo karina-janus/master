@@ -2,10 +2,10 @@
 
 namespace App\Entity;
 
-use App\Repository\TaskRepository;
+use App\Repository\UserRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: TaskRepository::class)]
+#[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: 'tasks')]
 class Task
 {

@@ -1,16 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-    {{ 'title.task_list'|trans }}
+    {{ 'title.user_list'|trans }}
 {% endblock %}
 
 {% block body %}
 
-    <h1>{{ 'title.task_list'|trans }}</h1>
+    <h1>{{ 'title.user_list'|trans }}</h1>
 
-    {% if is_granted('ROLE_ADMIN') %}
-        <a type="button" class="btn btn-primary mb-3" href="{{ url('task_create') }}">{{ 'action.create_task'|trans }}</a>
-    {% endif %}
     {% if pagination is defined and pagination.items|length %}
 
         <div class="navigation text-center">
@@ -20,30 +17,26 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'task.id') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.created_at'|trans, 'task.createdAt') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.updated_at'|trans, 'task.updatedAt') }}</th>
-                <th>{{ knp_pagination_sortable(pagination, 'label.title'|trans, 'task.title') }}</th>
-                <th>{{ 'label.category'|trans }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.id'|trans, 'user.id') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.email'|trans, 'user.email') }}</th>
+                <th>{{ knp_pagination_sortable(pagination, 'label.roles'|trans, 'user.roles') }}</th>
                 <th>{{ 'label.actions'|trans }}</th>
             </tr>
             </thead>
             <tbody>
-            {% for task in pagination.items %}
+            {% for user in pagination.items %}
                 <tr>
-                    <td>{{ task.id }}</td>
-                    <td>{{ task.createdAt|format_date('long') }}</td>
-                    <td>{{ task.updatedAt|format_date('long') }}</td>
-                    <td>{{ task.title }}</td>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.email }}</td>
                     <td>
-                        <a href="{{ url('category_show', {id: task.category.id}) }}">
-                        {{ task.category.title }}
-                        </a>
+                        {% for role in user.roles %}
+                            {{ role }}
+                        {% endfor %}
                     </td>
                     <td>
                         <a type="button"
                            class="btn btn-secondary"
-                           href="{{ url('task_show', {id: task.id}) }}"
+                           href="{{ url('user_show', {id: user.id}) }}"
                            title="{{ 'action.show'|trans }}"
                         >
                             {{ 'action.show'|trans }}
@@ -52,14 +45,14 @@
                         {% if is_granted('ROLE_ADMIN') %}
                             <a type="button"
                                class="btn btn-info"
-                               href="{{ url('task_edit', {id: task.id}) }}"
+                               href="{{ url('user_edit', {id: user.id}) }}"
                                title="{{ 'action.edit'|trans }}"
                             >
                                 {{ 'action.edit'|trans }}
                             </a>
                             <a type="button"
                             class="btn btn-danger"
-                            href="{{ url('task_delete', {id: task.id}) }}"
+                            href="{{ url('user_delete', {id: user.id}) }}"
                             title="{{ 'action.delete'|trans }}"
                             >
                             {{ 'action.delete'|trans }}
