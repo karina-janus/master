@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Category controller.
  */
@@ -8,6 +9,8 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Form\Type\CategoryType;
 use App\Service\CategoryServiceInterface;
+use App\Service\NoteServiceInterface;
+use App\Service\TaskServiceInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,6 +30,16 @@ class CategoryController extends AbstractController
     private CategoryServiceInterface $categoryService;
 
     /**
+     * Note service.
+     */
+    private NoteServiceInterface $noteService;
+
+    /**
+     * Note service.
+     */
+    private TaskServiceInterface $taskService;
+
+    /**
      * Translator.
      */
     private TranslatorInterface $translator;
@@ -35,11 +48,15 @@ class CategoryController extends AbstractController
      * Constructor.
      *
      * @param CategoryServiceInterface $categoryService Category service
+     * @param NoteServiceInterface     $noteService     Category service
+     * @param TaskServiceInterface     $taskService     Task service
      * @param TranslatorInterface      $translator      Translator
      */
-    public function __construct(CategoryServiceInterface $categoryService, TranslatorInterface $translator)
+    public function __construct(CategoryServiceInterface $categoryService, NoteServiceInterface $noteService, TaskServiceInterface $taskService, TranslatorInterface $translator)
     {
         $this->categoryService = $categoryService;
+        $this->noteService = $noteService;
+        $this->taskService = $taskService;
         $this->translator = $translator;
     }
 
@@ -70,7 +87,12 @@ class CategoryController extends AbstractController
     #[Route('/{id}', name: 'category_show', requirements: ['id' => '[1-9]\d*'], methods: 'GET')]
     public function show(Category $category): Response
     {
-        return $this->render('category/show.html.twig', ['category' => $category]);
+        $tasks = $this->taskService->getPaginatedListByCategory(1, $category);
+        $notes = $this->noteService->getPaginatedListByCategory(1, $category);
+
+        return $this->render('category/show.html.twig', ['category' => $category,
+            'tasks' => $tasks,
+        'notes' => $notes, ]);
     }
 
     /**

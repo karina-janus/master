@@ -51,15 +51,15 @@ class NoteService implements NoteServiceInterface
     /**
      * Get a paginated list of notes by category.
      *
-     * @param int  $page The page number
-     * @param Note $note note entity
+     * @param int      $page     The page number
+     * @param Category $category Category entity
      *
      * @return PaginationInterface The paginated list of notes
      */
-    public function getPaginatedListByCategory(int $page, Note $note): PaginationInterface
+    public function getPaginatedListByCategory(int $page, Category $category): PaginationInterface
     {
         return $this->paginator->paginate(
-            $this->noteRepository->queryByCategory($note->getCategory()),
+            $this->noteRepository->queryByCategory($category),
             $page,
             NoteRepository::PAGINATOR_ITEMS_PER_PAGE
         );

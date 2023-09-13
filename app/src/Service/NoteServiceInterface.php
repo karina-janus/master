@@ -6,6 +6,7 @@
 
 namespace App\Service;
 
+use App\Entity\Category;
 use App\Entity\Note;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 
@@ -26,12 +27,12 @@ interface NoteServiceInterface
     /**
      * Get a paginated list of notes by category.
      *
-     * @param int  $page The page number
-     * @param Note $note note entity
+     * @param int      $page     The page number
+     * @param Category $category Category entity
      *
      * @return PaginationInterface The paginated list of notes
      */
-    public function getPaginatedListByCategory(int $page, Note $note): PaginationInterface;
+    public function getPaginatedListByCategory(int $page, Category $category): PaginationInterface;
 
     /**
      * Save a note entity.

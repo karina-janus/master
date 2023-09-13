@@ -155,7 +155,7 @@ class NoteController extends AbstractController
                 $this->translator->trans('message.edited_successfully')
             );
 
-            return $this->redirect($request->headers->get('referer'));
+            return $this->redirectToRoute('note_index');
         }
 
         return $this->render('note/edit.html.twig', ['note' => $note, 'form' => $form->createView()]);
@@ -195,7 +195,7 @@ class NoteController extends AbstractController
                 $this->translator->trans('message.deleted_successfully')
             );
 
-            return $this->redirect($request->headers->get('referer'));
+            return $this->redirectToRoute('note_index');
         }
 
         return $this->render('note/delete.html.twig', ['note' => $note, 'form' => $form->createView()]);

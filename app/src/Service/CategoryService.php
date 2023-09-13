@@ -9,7 +9,7 @@ namespace App\Service;
 use App\Entity\Category;
 use App\Repository\CategoryRepository;
 use App\Repository\NoteRepository;
-use App\Repository\UserRepository;
+use App\Repository\TaskRepository;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\NoResultException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
@@ -26,8 +26,8 @@ class CategoryService implements CategoryServiceInterface
     /** @var NoteRepository The note repository */
     private NoteRepository $noteRepository;
 
-    /** @var UserRepository The user repository */
-    private UserRepository $taskRepository;
+    /** @var TaskRepository The user repository */
+    private TaskRepository $taskRepository;
 
     /** @var PaginatorInterface The paginator */
     private PaginatorInterface $paginator;
@@ -37,10 +37,10 @@ class CategoryService implements CategoryServiceInterface
      *
      * @param CategoryRepository $repository     The category repository
      * @param NoteRepository     $noteRepository The note repository
-     * @param UserRepository     $taskRepository The user repository
+     * @param TaskRepository     $taskRepository The user repository
      * @param PaginatorInterface $paginator      The paginator
      */
-    public function __construct(CategoryRepository $repository, NoteRepository $noteRepository, UserRepository $taskRepository, PaginatorInterface $paginator)
+    public function __construct(CategoryRepository $repository, NoteRepository $noteRepository, TaskRepository $taskRepository, PaginatorInterface $paginator)
     {
         $this->categoryRepository = $repository;
         $this->noteRepository = $noteRepository;
