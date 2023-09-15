@@ -10,7 +10,6 @@ use App\Entity\Category;
 use App\Entity\Task;
 use App\Repository\TaskRepository;
 use App\Repository\UserRepository;
-use DateTimeImmutable;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -76,9 +75,9 @@ class TaskService implements TaskServiceInterface
     public function save(Task $task): void
     {
         if (!$this->taskRepository->findBy(['id' => $task->getId()])) {
-            $task->setCreatedAt(new DateTimeImmutable());
+            $task->setCreatedAt(new \DateTimeImmutable());
         }
-        $task->setUpdatedAt(new DateTimeImmutable());
+        $task->setUpdatedAt(new \DateTimeImmutable());
         $this->taskRepository->save($task, true);
     }
 

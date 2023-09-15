@@ -23,3 +23,10 @@ echo "Running DB schema and data fixtures..."
   ./bin/console doctrine:migrations:migrate --no-interaction
   ./bin/console doctrine:fixtures:load --no-interaction
 }  >> $RESULT_FILE
+
+echo "Tear down..."
+{
+  ./bin/console doctrine:schema:drop --no-interaction --full-database --force
+  rm -rf var
+  rm -rf vendor
+} > /dev/null 2>&1

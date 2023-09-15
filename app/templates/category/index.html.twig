@@ -31,8 +31,8 @@
             {% for category in pagination.items %}
                 <tr>
                     <td>{{ category.id }}</td>
-                    <td>{{ category.createdAt|format_datetimetime('long') }}</td>
-                    <td>{{ category.updatedAt|format_datetimetime('long') }}</td>
+                    <td>{{ category.createdAt|format_datetime('long') }}</td>
+                    <td>{{ category.updatedAt|format_datetime('long') }}</td>
                     <td>{{ category.title }}</td>
                     <td>
                         <a type="button"

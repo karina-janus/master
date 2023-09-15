@@ -9,7 +9,6 @@ namespace App\Service;
 use App\Entity\Category;
 use App\Entity\Note;
 use App\Repository\NoteRepository;
-use DateTimeImmutable;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -74,9 +73,9 @@ class NoteService implements NoteServiceInterface
     public function save(Note $note): void
     {
         if (!$this->noteRepository->findBy(['id' => $note->getId()])) {
-            $note->setCreatedAt(new DateTimeImmutable());
+            $note->setCreatedAt(new \DateTimeImmutable());
         }
-        $note->setUpdatedAt(new DateTimeImmutable());
+        $note->setUpdatedAt(new \DateTimeImmutable());
         $this->noteRepository->save($note, true);
     }
 

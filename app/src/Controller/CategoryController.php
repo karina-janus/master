@@ -103,7 +103,7 @@ class CategoryController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/create', name: 'category_create', methods: 'GET|POST')]#
+    #[Route('/create', name: 'category_create', methods: 'GET|POST')]
     #[IsGranted('ROLE_USER')]
     public function create(Request $request): Response
     {
@@ -206,6 +206,7 @@ class CategoryController extends AbstractController
                     $this->translator->trans('category.cant_be_deleted')
                 );
             }
+
             return $this->redirectToRoute('category_index');
         }
 

@@ -41,6 +41,16 @@ Search.appendIndex(
             "summary": "Category\u0020service.",
             "url": "classes/App-Controller-CategoryController.html#property_categoryService"
         },                {
+            "fqsen": "\\App\\Controller\\CategoryController\u003A\u003A\u0024noteService",
+            "name": "noteService",
+            "summary": "Note\u0020service.",
+            "url": "classes/App-Controller-CategoryController.html#property_noteService"
+        },                {
+            "fqsen": "\\App\\Controller\\CategoryController\u003A\u003A\u0024taskService",
+            "name": "taskService",
+            "summary": "Note\u0020service.",
+            "url": "classes/App-Controller-CategoryController.html#property_taskService"
+        },                {
             "fqsen": "\\App\\Controller\\CategoryController\u003A\u003A\u0024translator",
             "name": "translator",
             "summary": "Translator.",
@@ -1065,6 +1075,11 @@ Search.appendIndex(
             "name": "delete",
             "summary": "Delete\u0020a\u0020category\u0020if\u0020it\u0020can\u0020be\u0020deleted.",
             "url": "classes/App-Service-CategoryServiceInterface.html#method_delete"
+        },                {
+            "fqsen": "\\App\\Service\\CategoryServiceInterface\u003A\u003AcanBeDeleted\u0028\u0029",
+            "name": "canBeDeleted",
+            "summary": "Check\u0020if\u0020a\u0020category\u0020can\u0020be\u0020deleted.",
+            "url": "classes/App-Service-CategoryServiceInterface.html#method_canBeDeleted"
         },                {
             "fqsen": "\\App\\Service\\NoteService",
             "name": "NoteService",
