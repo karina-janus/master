@@ -11,9 +11,9 @@
             <dt>{{ 'label.id'|trans }}</dt>
             <dd>{{ category.id }}</dd>
             <dt>{{ 'label.created_at'|trans }}</dt>
-            <dd>{{ category.createdAt|date('Y/m/d') }}</dd>
+            <dd>{{ category.createdAt|format_datetime('long') }}</dd>
             <dt>{{ 'label.updated_at'|trans }}</dt>
-            <dd>{{ category.updatedAt|date('Y/m/d') }}</dd>
+            <dd>{{ category.updatedAt|format_datetime('long') }}</dd>
             <dt>{{ 'label.title'|trans }}</dt>
             <dd>{{  category.title }}</dd>
         </dl>
@@ -64,8 +64,8 @@
             {% for task in tasks.items %}
                 <tr>
                     <td>{{ task.id }}</td>
-                    <td>{{ task.createdAt|format_date('long') }}</td>
-                    <td>{{ task.updatedAt|format_date('long') }}</td>
+                    <td>{{ task.createdAt|format_datetime('long') }}</td>
+                    <td>{{ task.updatedAt|format_datetime('long') }}</td>
                     <td>{{ task.title }}</td>
                     <td>
                         <a type="button"
@@ -123,8 +123,8 @@
             {% for note in notes.items %}
                 <tr>
                     <td>{{ note.id }}</td>
-                    <td>{{ note.createdAt|format_date('long') }}</td>
-                    <td>{{ note.updatedAt|format_date('long') }}</td>
+                    <td>{{ note.createdAt|format_datetime('long') }}</td>
+                    <td>{{ note.updatedAt|format_datetime('long') }}</td>
                     <td>{{ note.title }}</td>
                     <td>
                         <a type="button"

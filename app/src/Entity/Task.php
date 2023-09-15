@@ -49,7 +49,7 @@ class Task
      * @var Category|null $category Category associated with the task
      */
     #[ORM\ManyToOne(fetch: 'EXTRA_LAZY')]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\JoinColumn(nullable: false)]
     #[Assert\Type(DateTimeImmutable::class)]
     private ?Category $category = null;
 

@@ -33,8 +33,8 @@
             {% for note in pagination.items %}
                 <tr>
                     <td>{{ note.id }}</td>
-                    <td>{{ note.createdAt|format_date('long') }}</td>
-                    <td>{{ note.updatedAt|format_date('long') }}</td>
+                    <td>{{ note.createdAt|format_datetime('long') }}</td>
+                    <td>{{ note.updatedAt|format_datetime('long') }}</td>
                     <td>{{ note.title }}</td>
                     <td>{{ note.content[:50] ~ '...' }}</td>
                     <td>

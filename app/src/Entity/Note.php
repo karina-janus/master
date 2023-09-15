@@ -56,7 +56,8 @@ class Note
     /**
      * @var Category|null $category Category associated with the note
      */
-    #[ORM\ManyToOne]
+    #[ORM\ManyToOne(fetch: 'EXTRA_LAZY')]
+    #[ORM\JoinColumn(nullable: false)]
     #[Assert\Type(Category::class)]
     private ?Category $category = null;
 
