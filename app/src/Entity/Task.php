@@ -7,7 +7,10 @@
 namespace App\Entity;
 
 use App\Repository\TaskRepository;
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
 #[ORM\Table(name: 'tasks')]
@@ -22,28 +25,32 @@ class Task
     private ?int $id = null;
 
     /**
-     * @var \DateTimeImmutable|null $createdAt Date and time when the task was created
+     * @var DateTimeImmutable|null $createdAt Date and time when the task was created
      */
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private ?DateTimeImmutable $createdAt = null;
 
     /**
-     * @var \DateTimeImmutable|null $updatedAt Date and time when the task was last updated
+     * @var DateTimeImmutable|null $updatedAt Date and time when the task was last updated
      */
     #[ORM\Column]
-    private ?\DateTimeImmutable $updatedAt = null;
+    #[Assert\Type(DateTimeImmutable::class)]
+    private ?DateTimeImmutable $updatedAt = null;
 
     /**
      * @var string|null $title Title of the task
      */
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min: 3, max: 255)]
     private ?string $title = null;
 
     /**
      * @var Category|null $category Category associated with the task
      */
     #[ORM\ManyToOne(fetch: 'EXTRA_LAZY')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
+    #[Assert\Type(DateTimeImmutable::class)]
     private ?Category $category = null;
 
     /**
@@ -59,9 +66,9 @@ class Task
     /**
      * Getter for CreatedAt.
      *
-     * @return \DateTimeImmutable|null CreatedAt
+     * @return DateTimeImmutable|null CreatedAt
      */
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
     }
@@ -69,9 +76,9 @@ class Task
     /**
      * Setter for CreatedAt.
      *
-     * @param \DateTimeImmutable $createdAt CreatedAt
+     * @param DateTimeImmutable $createdAt CreatedAt
      */
-    public function setCreatedAt(\DateTimeImmutable $createdAt): void
+    public function setCreatedAt(DateTimeImmutable $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
@@ -79,9 +86,9 @@ class Task
     /**
      * Getter for UpdatedAt.
      *
-     * @return \DateTimeImmutable|null UpdatedAt
+     * @return DateTimeImmutable|null UpdatedAt
      */
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?DateTimeImmutable
     {
         return $this->updatedAt;
     }
@@ -89,9 +96,9 @@ class Task
     /**
      * Setter for UpdatedAt.
      *
-     * @param \DateTimeImmutable $updatedAt UpdatedAt
+     * @param DateTimeImmutable $updatedAt UpdatedAt
      */
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): void
+    public function setUpdatedAt(DateTimeImmutable $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }

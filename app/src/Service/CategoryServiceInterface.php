@@ -38,4 +38,13 @@ interface CategoryServiceInterface
      * @return bool Whether the category was deleted
      */
     public function delete(Category $category): bool;
+
+    /**
+     * Check if a category can be deleted.
+     *
+     * @param Category $category The category entity
+     *
+     * @return bool Whether the category can be deleted
+     */
+    public function canBeDeleted(Category $category): bool;
 }

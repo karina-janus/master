@@ -11,6 +11,7 @@ use App\Form\Type\CategoryType;
 use App\Service\CategoryServiceInterface;
 use App\Service\NoteServiceInterface;
 use App\Service\TaskServiceInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\FormType;
 use Symfony\Component\HttpFoundation\Request;
@@ -102,7 +103,8 @@ class CategoryController extends AbstractController
      *
      * @return Response HTTP response
      */
-    #[Route('/create', name: 'category_create', methods: 'GET|POST')]
+    #[Route('/create', name: 'category_create', methods: 'GET|POST')]#
+    #[IsGranted('ROLE_USER')]
     public function create(Request $request): Response
     {
         $category = new Category();
@@ -136,6 +138,7 @@ class CategoryController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/edit', name: 'category_edit', requirements: ['id' => '[1-9]\d*'], methods: 'GET|PUT')]
+    #[IsGranted('ROLE_ADMIN')]
     public function edit(Request $request, Category $category): Response
     {
         $form = $this->createForm(
@@ -177,6 +180,7 @@ class CategoryController extends AbstractController
      * @return Response HTTP response
      */
     #[Route('/{id}/delete', name: 'category_delete', requirements: ['id' => '[1-9]\d*'], methods: 'GET|DELETE')]
+    #[IsGranted('ROLE_ADMIN')]
     public function delete(Request $request, Category $category): Response
     {
         $form = $this->createForm(
@@ -190,13 +194,18 @@ class CategoryController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->categoryService->delete($category);
-
-            $this->addFlash(
-                'success',
-                $this->translator->trans('message.deleted_successfully')
-            );
-
+            if ($this->categoryService->canBeDeleted($category)) {
+                $this->categoryService->delete($category);
+                $this->addFlash(
+                    'success',
+                    $this->translator->trans('message.deleted_successfully')
+                );
+            } else {
+                $this->addFlash(
+                    'warning',
+                    $this->translator->trans('category.cant_be_deleted')
+                );
+            }
             return $this->redirectToRoute('category_index');
         }
 

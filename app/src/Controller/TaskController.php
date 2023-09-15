@@ -100,7 +100,7 @@ class TaskController extends AbstractController
         name: 'task_create',
         methods: 'GET|POST'
     )]
-    #[IsGranted('ROLE_ADMIN')]
+    #[IsGranted('ROLE_USER')]
     public function create(Request $request): Response
     {
         $task = new Task();
